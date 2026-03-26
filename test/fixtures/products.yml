@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  genre: one
+  media_type: one
+  name: MyString
+  description: MyString
+  price: 9.99
+
+two:
+  genre: two
+  media_type: two
+  name: MyString
+  description: MyString
+  price: 9.99

@@ -60,7 +60,6 @@ group :test do
 end
 
 gem 'activeadmin'
-gem 'auth'
 gem 'devise'
 gem 'kaminari'
 gem 'image_processing'

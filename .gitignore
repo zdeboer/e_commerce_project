@@ -33,3 +33,7 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+/RRC-Full-Stack-Ecommerce-Project-Rubric.pdf
+/E-Commerce-Project-Proposal.pdf
+/E-commerce-ERD.png
