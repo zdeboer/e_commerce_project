@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_26_192055) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_27_173817) do
   create_table "addresses", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.string "address_line1"
@@ -117,6 +117,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_26_192055) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "image_url"
     t.index ["genre_id"], name: "index_products_on_genre_id"
     t.index ["media_type_id"], name: "index_products_on_media_type_id"
   end

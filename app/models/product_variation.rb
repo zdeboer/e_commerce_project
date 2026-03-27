@@ -1,3 +1,14 @@
 class ProductVariation < ApplicationRecord
   belongs_to :product
+  has_one :inventory, dependent: :destroy
+
+  validates :variation_name, :variation_value, presence: true
+
+  def self.ransackable_attributes(auth_object = nil)
+    %w[variation_name variation_value product_id created_at updated_at]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    %w[product inventory]
+  end
 end

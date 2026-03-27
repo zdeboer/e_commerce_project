@@ -1,7 +1,7 @@
 class CreateMediaTypes < ActiveRecord::Migration[7.2]
   def change
-    create_table :media_types do |t|
-      t.string :name
+    create_table :media_types, id: :uuid do |t|
+      t.string :name, null: false
 
       t.timestamps
     end
