@@ -18,7 +18,22 @@ class ProductsController < ApplicationController
       )
     end
 
-    @products = scope.order(:name)
+    @sort = params[:sort].to_s
+
+    case @sort
+    when "newest"
+      scope = scope.order(created_at: :desc, name: :asc)
+
+    when "updated"
+      scope = scope
+                .where("products.updated_at >= ?", 3.days.ago)
+                .order(updated_at: :desc, name: :asc)
+
+    else
+      scope = scope.order(:name)
+    end
+
+    @products = scope.page(params[:page]).per(12)
   end
 
   def show

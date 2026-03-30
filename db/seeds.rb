@@ -84,7 +84,7 @@ end
 
 puts "Importing movies from TMDb..."
 
-movie_ids = [ 27205, 155, 157336 ] # Inception, The Dark Knight, Interstellar
+movie_ids = [ 27205, 155, 157336, 11, 238, 240, 1891, 1892, 680, 550, 603, 278, 120, 121, 122, 329, 105, 8587, 19995, 597 ] # Inception, The Dark Knight, Interstellar
 
 movie_ids.each do |id|
   data = tmdb("/movie/#{id}")
@@ -153,7 +153,9 @@ puts "Importing music albums..."
 
 albums = {
   "Dark Side of the Moon" => "f5093c06-23e3-404f-aeaa-40f72885ee3a",
-  "Abbey Road" => "9162580e-5df4-32de-80cc-f45a8d8a9b1d"
+  "Abbey Road" => "9162580e-5df4-32de-80cc-f45a8d8a9b1d",
+  "Thriller" => "3a7817b5-22cb-32c3-a31b-2c8309fbf92e",
+  "Close To The Edge" => "5a59b948-1961-32ff-80d9-e970c7d4ebe9"
 }
 
 albums.each do |album_name, mbid|
