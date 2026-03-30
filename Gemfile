@@ -59,11 +59,11 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem 'activeadmin'
-gem 'devise'
-gem 'kaminari'
-gem 'image_processing'
-gem 'stripe'
-gem 'rubocop-rails'
-gem 'sassc-rails'
-gem 'dotenv-rails', groups: [:development, :test]
+gem "activeadmin"
+gem "devise"
+gem "kaminari"
+gem "image_processing"
+gem "stripe"
+gem "rubocop-rails"
+gem "sassc-rails"
+gem "dotenv-rails", groups: [ :development, :test ]

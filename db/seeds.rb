@@ -84,7 +84,7 @@ end
 
 puts "Importing movies from TMDb..."
 
-movie_ids = [27205, 155, 157336] # Inception, The Dark Knight, Interstellar
+movie_ids = [ 27205, 155, 157336 ] # Inception, The Dark Knight, Interstellar
 
 movie_ids.each do |id|
   data = tmdb("/movie/#{id}")
@@ -116,7 +116,7 @@ movie_ids.each do |id|
     image_url: data["poster_path"].present? ? "#{TMDB_IMG}#{data["poster_path"]}" : nil
   )
 
-  ["DVD", "Blu-ray", "VHS"].each do |format|
+  [ "DVD", "Blu-ray", "VHS" ].each do |format|
     puts "Creating variation for #{product.name}"
 
     variation = ProductVariation.create!(
@@ -181,7 +181,7 @@ albums.each do |album_name, mbid|
     image_url: cover_url
   )
 
-  ["Vinyl", "CD"].each do |format|
+  [ "Vinyl", "CD" ].each do |format|
     variation = ProductVariation.create!(
       product: product,
       variation_name: "Format",

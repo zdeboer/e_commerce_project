@@ -5,8 +5,8 @@ Rails.application.routes.draw do
 
   root "home#index"
 
-  resources :products, only: [:index, :show]
-  resources :genres, only: [:show]
+  resources :products, only: [ :index, :show ]
+  resources :genres, only: [ :show ]
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
