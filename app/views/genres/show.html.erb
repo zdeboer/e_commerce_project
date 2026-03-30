@@ -1,0 +1,19 @@
+<% content_for :title, @genre.name %>
+
+<p><%= link_to "← Home", root_path %></p>
+
+<h1><%= @genre.name %></h1>
+
+<% if @products.any? %>
+  <ul>
+    <% @products.each do |product| %>
+      <li>
+        <%= link_to product.name, product_path(product) %>
+        — <%= number_to_currency(product.price) if product.price.present? %>
+        (<%= product.media_type&.name %>)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No products in this genre yet.</p>
+<% end %>

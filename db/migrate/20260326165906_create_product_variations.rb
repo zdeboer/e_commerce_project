@@ -1,9 +1,10 @@
-class CreateProductVariations < ActiveRecord::Migration[7.]
+class CreateProductVariations < ActiveRecord::Migration[7.2]
   def change
-    create_table :product_variations, id: :uuid do |t|
-      t.uuid :product_id, null: false
-      t.string :variation_name, null: false
-      t.string :variation_value, null: false
+    create_table :product_variations do |t|
+      t.integer :product_id, null: false
+      t.string :variation_name
+      t.string :variation_value
+      t.string :sku
 
       t.timestamps
     end

@@ -1,8 +1,8 @@
 class CreateInventories < ActiveRecord::Migration[7.2]
   def change
-    create_table :inventories, id: :uuid do |t|
-      t.uuid :product_variation_id, null: false
-      t.integer :quantity, null: false, default: 0
+    create_table :inventories do |t|
+      t.integer :product_variation_id, null: false
+      t.integer :quantity
       t.datetime :last_updated
 
       t.timestamps

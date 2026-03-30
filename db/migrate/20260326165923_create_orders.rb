@@ -1,17 +1,14 @@
 class CreateOrders < ActiveRecord::Migration[7.2]
   def change
-    create_table :orders, id: :uuid do |t|
-      t.uuid :customer_id, null: false
-      t.uuid :address_id
-
-      t.datetime :order_date, null: false
-      t.string :shipment_tracking_number
-
-      t.decimal :total_amount, precision: 10, scale: 2, null: false
-
-      t.string :order_status, null: false, default: "pending"
-      t.string :payment_status, null: false, default: "unpaid"
+    create_table :orders do |t|
+      t.integer :customer_id, null: false
+      t.integer :address_id, null: false
+      t.string :order_status
+      t.string :payment_status
       t.string :payment_method
+      t.string :shipment_tracking_number
+      t.datetime :order_date
+      t.decimal :total_amount
 
       t.timestamps
     end

@@ -13,5 +13,5 @@ class Product < ApplicationRecord
     %w[media_type genre product_variations inventory_items]
   end
 
-  validates :name, :desctiption, :price, presence: true
+  validates :name, :description, :price, presence: true
 end

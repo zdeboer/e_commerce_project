@@ -1,0 +1,31 @@
+<% content_for :title, "Products" %>
+
+<h1>Products</h1>
+
+<% if @products.any? %>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+    <% @products.each do |product| %>
+      <div style="border:1px solid #ddd;padding:12px;border-radius:8px;">
+        <% if product.image_url.present? %>
+          <div style="margin-bottom:8px;">
+            <%= image_tag product.image_url, alt: product.name, loading: "lazy", style: "max-width:100%;height:auto;border-radius:6px;" %>
+          </div>
+        <% end %>
+
+        <div style="font-weight:600;">
+          <%= link_to product.name, product_path(product) %>
+        </div>
+
+        <div style="font-size:14px;opacity:0.8;">
+          <%= product.genre&.name %> · <%= product.media_type&.name %>
+        </div>
+
+        <div style="margin-top:6px;">
+          <%= number_to_currency(product.price) if product.price.present? %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p>No products found.</p>
+<% end %>

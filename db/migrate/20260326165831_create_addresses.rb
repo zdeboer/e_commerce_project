@@ -1,14 +1,14 @@
 class CreateAddresses < ActiveRecord::Migration[7.2]
   def change
-    create_table :addresses, id: :uuid do |t|
-      t.uuid :customer_id, null: false
+    create_table :addresses do |t|
+      t.integer :customer_id, null: false
 
-      t.string :address_line1, null: false
+      t.string :address_line1
       t.string :address_line2
-      t.string :city, null: false
-      t.string :state, null: false
-      t.string :postal_code, null: false
-      t.string :country, null: false
+      t.string :city
+      t.string :state
+      t.string :postal_code
+      t.string :country
 
       t.timestamps
     end

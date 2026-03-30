@@ -1,0 +1,59 @@
+<% content_for :title, @product.name %>
+
+<p><%= link_to "← Back to products", products_path %></p>
+
+<h1><%= @product.name %></h1>
+
+<% if @product.image_url.present? %>
+  <div style="max-width:420px;">
+    <%= image_tag @product.image_url, alt: @product.name, style: "max-width:100%;height:auto;border-radius:8px;" %>
+  </div>
+<% end %>
+
+<p>
+  <strong>Price:</strong>
+  <%= number_to_currency(@product.price) if @product.price.present? %>
+</p>
+
+<p>
+  <strong>Genre:</strong>
+  <%= @product.genre&.name %>
+</p>
+
+<p>
+  <strong>Media type:</strong>
+  <%= @product.media_type&.name %>
+</p>
+
+<% if @product.description.present? %>
+  <h2>Description</h2>
+  <p><%= @product.description %></p>
+<% end %>
+
+<h2>Available formats</h2>
+<% if @variations.any? %>
+  <table style="border-collapse:collapse;width:100%;max-width:720px;">
+    <thead>
+      <tr>
+        <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Option</th>
+        <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">SKU</th>
+        <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">In stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @variations.each do |variation| %>
+        <tr>
+          <td style="border-bottom:1px solid #eee;padding:8px;">
+            <%= [variation.variation_name, variation.variation_value].compact.join(": ") %>
+          </td>
+          <td style="border-bottom:1px solid #eee;padding:8px;"><%= variation.sku.presence || "—" %></td>
+          <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
+            <%= variation.inventory&.quantity || 0 %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <p>No variations available.</p>
+<% end %>

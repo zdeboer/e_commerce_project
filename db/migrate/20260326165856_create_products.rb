@@ -1,13 +1,11 @@
 class CreateProducts < ActiveRecord::Migration[7.2]
   def change
-    create_table :products, id: :uuid do |t|
-      t.string :name, null: false
-      t.text :description, null: false
-      t.decimal :price, precision: 10, scale: 2, null: false
-      t.string :sku, null: false
-
-      t.uuid :media_type_id, null: false
-      t.uuid :genre_id, null: false
+    create_table :products do |t|
+      t.integer :genre_id, null: false
+      t.integer :media_type_id, null: false
+      t.string :name
+      t.string :description
+      t.decimal :price
 
       t.timestamps
     end
@@ -17,6 +15,5 @@ class CreateProducts < ActiveRecord::Migration[7.2]
 
     add_index :products, :media_type_id
     add_index :products, :genre_id
-    add_index :products, :sku, unique: true
   end
 end

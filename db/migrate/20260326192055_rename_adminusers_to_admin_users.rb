@@ -1,5 +1,9 @@
 class RenameAdminusersToAdminUsers < ActiveRecord::Migration[7.2]
   def change
+    return if table_exists?(:admin_users)
+
+    return unless table_exists?(:adminusers)
+
     rename_table :adminusers, :admin_users
 
     if index_name_exists?(:admin_users, "index_adminusers_on_email")
