@@ -5,8 +5,13 @@
 <%= form_with url: products_path, method: :get, local: true do %>
   <div style="margin: 12px 0; display:flex; gap:8px; align-items:center;">
     <%= text_field_tag :q, params[:q], placeholder: "Search products…", style: "flex:1; padding:8px;" %>
+    <%= select_tag :genre_id,
+      options_from_collection_for_select(@genres, :id, :name, params[:genre_id]),
+      include_blank: "All genres",
+      style: "padding:8px;"
+    %>
     <%= submit_tag "Search", style: "padding:8px 12px;" %>
-    <% if params[:q].present? %>
+    <% if params[:q].present? || params[:genre_id].present? %>
       <%= link_to "Clear", products_path, style: "padding:8px 12px;" %>
     <% end %>
   </div>
