@@ -79,7 +79,7 @@ class CheckoutsController < ApplicationController
   def create_order(address, total)
     current_customer.orders.create!(
       address: address, total_amount: total, order_date: Time.current,
-      order_status: "pending", payment_status: "unpaid", payment_method: "invoice"
+      order_status: "new", payment_status: "unpaid", payment_method: "invoice"
     )
   end
 

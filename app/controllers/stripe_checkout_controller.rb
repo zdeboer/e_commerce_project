@@ -25,12 +25,14 @@ class StripeCheckoutController < ApplicationController
       cancel_url:           order_url(order)
     )
 
+    order.update(stripe_payment_id: session.id)
+
     redirect_to session.url, allow_other_host: true
   end
 
   def success
-    order = current_customer.orders.find(params[:order_id])
-    order.update(
+    @order = current_customer.orders.find(params[:order_id])
+    @order.update(
       order_status:   :paid,
       payment_status: :paid
     )

@@ -14,7 +14,7 @@
         <td><%= link_to order.id, order_path(order) %></td>
         <td><%= order.order_date&.strftime("%Y-%m-%d") || order.created_at.strftime("%Y-%m-%d") %></td>
         <td><%= number_to_currency(order.total_amount) %></td>
-        <td><%= "#{order.order_status} / #{order.payment_status}" %></td>
+        <td><%= order.order_status.capitalize %></td>
       </tr>
     <% end %>
   </table>

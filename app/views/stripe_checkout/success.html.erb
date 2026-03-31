@@ -1,2 +1,19 @@
-<h1>StripeCheckout#success</h1>
-<p>Find me in app/views/stripe_checkout/success.html.erb</p>
+<h1>Payment Successful</h1>
+
+<p>Thank you for your purchase. Your payment has been processed successfully.</p>
+
+<h2>Order Summary</h2>
+
+<ul>
+  <li><strong>Order Number:</strong> <%= @order.id %></li>
+  <li><strong>Total Paid:</strong> <%= number_to_currency(@order.total_amount) %></li>
+  <li><strong>Status:</strong> <%= @order.order_status.capitalize %></li>
+</ul>
+
+<p>
+  <%= link_to "View Your Order", order_path(@order) %>
+</p>
+
+<p>
+  <%= link_to "Continue Shopping", products_path %>
+</p>
