@@ -1,46 +1,87 @@
+<h1>Checkout</h1>
+
+<% if cart_hash.empty? %>
+  <p>Your cart is empty.</p>
+  <%= link_to "Back to products", products_path %>
+  <% return %>
+<% end %>
+
 <h2>Shipping Address</h2>
 
-<%= form_with url: checkout_path, method: :post do %>
-
+<%= form_with url: checkout_path, method: :post, local: true do |f| %>
   <% if current_customer.addresses.any? %>
-    <p>Select an existing address:</p>
-    <%= select_tag :address_id,
-        options_from_collection_for_select(
-          current_customer.addresses,
-          :id,
-          :full_display,
-          params[:address_id]
-        ),
-        include_blank: "Use a new address" %>
-
+    <div class="field">
+      <%= label_tag :address_id, "Choose a saved address" %>
+      <%= select_tag :address_id,
+            options_from_collection_for_select(
+              current_customer.addresses,
+              :id,
+              ->(a) { "#{a.address_line1}, #{a.city}, #{a.state} #{a.postal_code}" }
+            ),
+            include_blank: "Use a new address" %>
+    </div>
   <% end %>
 
-  <p>Or enter a new address:</p>
+  <div class="field">
+    <%= label_tag :address_line1, "Address Line 1" %>
+    <%= text_field_tag :address_line1, nil, required: true %>
+  </div>
 
-  <p>
-    Address Line 1:
-    <%= text_field_tag :address_line1, nil %>
-  </p>
+  <div class="field">
+    <%= label_tag :city, "City" %>
+    <%= text_field_tag :city, nil, required: true %>
+  </div>
 
-  <p>
-    City:
-    <%= text_field_tag :city, nil %>
-  </p>
+  <div class="field">
+    <%= label_tag :state, "Province" %>
+    <%= select_tag :state,
+          options_for_select(Province.order(:name).pluck(:name, :code)),
+          include_blank: "Select a province",
+          required: true %>
+  </div>
 
-  <p>
-    Province:
-    <%= text_field_tag :state, nil %>
-  </p>
+  <div class="field">
+    <%= label_tag :postal_code, "Postal Code" %>
+    <%= text_field_tag :postal_code, nil, required: true %>
+  </div>
 
-  <p>
-    Postal Code:
-    <%= text_field_tag :postal_code, nil %>
-  </p>
+  <div class="field">
+    <%= label_tag :country, "Country" %>
+    <%= text_field_tag :country, "Canada", required: true %>
+  </div>
 
-  <p>
-    Country:
-    <%= text_field_tag :country, params[:country] || "Canada" %>
-  </p>
+  <hr>
 
-  <%= submit_tag "Place Order" %>
+  <h2>Order Summary</h2>
+
+  <table style="width:100%;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="text-align:left;">Product</th>
+        <th style="text-align:right;">Qty</th>
+        <th style="text-align:right;">Price</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @variations = ProductVariation.includes(:product).where(id: cart_hash.keys) %>
+      <% @variations.each do |variation| %>
+        <% qty = cart_hash[variation.id.to_s].to_i %>
+        <tr>
+          <td><%= variation.product.name %></td>
+          <td style="text-align:right;"><%= qty %></td>
+          <td style="text-align:right;"><%= number_to_currency(variation.product.price * qty) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <hr>
+
+  <% subtotal = @variations.sum { |v| v.product.price * cart_hash[v.id.to_s].to_i } %>
+
+  <p><strong>Subtotal:</strong> <%= number_to_currency(subtotal) %></p>
+  <p>Taxes will be calculated after you submit your order.</p>
+
+  <%= submit_tag "Place Order", class: "button" %>
+
 <% end %>

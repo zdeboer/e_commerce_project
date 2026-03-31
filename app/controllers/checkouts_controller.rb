@@ -10,7 +10,7 @@ class CheckoutsController < ApplicationController
     subtotal = calculate_subtotal
     taxes = calculate_taxes(address, subtotal)
 
-    order = create_order(address, subtotal + taxes.sum)
+    order = create_order(address, subtotal + taxes.values.sum)
     create_order_items(order)
 
     session[:cart] = {}
@@ -22,18 +22,27 @@ class CheckoutsController < ApplicationController
   def cart_hash
     @cart_hash ||= session[:cart] || {}
   end
+  helper_method :cart_hash
 
   def find_or_create_address
+    # If user selected an existing address, use it
     return current_customer.addresses.find(params[:address_id]) if params[:address_id].present?
 
+    # Normalize input
     attrs = {
-      address_line1: params[:address_line1].to_s.strip,
-      city:          params[:city].to_s.strip,
-      state:         params[:state].to_s.strip,
-      postal_code:   params[:postal_code].to_s.strip,
-      country:       params[:country].to_s.strip
+      address_line1: params[:address_line1].to_s.strip.titleize,
+      city:          params[:city].to_s.strip.titleize,
+      state:         params[:state].to_s.strip.upcase,
+      postal_code:   params[:postal_code].to_s.strip.upcase,
+      country:       params[:country].to_s.strip.titleize
     }
-    current_customer.addresses.find_or_create_by!(attrs)
+
+    # Reuse existing address if identical
+    existing = current_customer.addresses.find_by(attrs)
+    return existing if existing
+
+    # Otherwise create a new one
+    current_customer.addresses.create!(attrs)
   end
 
   def calculate_subtotal
@@ -43,9 +52,20 @@ class CheckoutsController < ApplicationController
 
   def calculate_taxes(address, subtotal)
     province = Province.find_by(code: address.state&.strip&.upcase)
-    return [0, 0, 0] unless province
 
-    [subtotal * province.gst, subtotal * province.pst, subtotal * province.hst]
+    if province
+      gst = subtotal * province.gst
+      pst = subtotal * province.pst
+      hst = subtotal * province.hst
+    else
+      gst = pst = hst = 0
+    end
+
+    {
+      gst: gst,
+      pst: pst,
+      hst: hst
+    }
   end
 
   def create_order(address, total)
