@@ -4,6 +4,14 @@ class CheckoutsController < ApplicationController
   def show; end
 
   def create
+    if params[:address_id].blank? &&
+       params[:address_line1].blank? &&
+       params[:city].blank? &&
+       params[:state].blank? &&
+       params[:postal_code].blank?
+      return redirect_to checkout_path, alert: "Please select an address or enter a new one."
+    end
+
     return redirect_to cart_path, alert: "Your cart is empty." if cart_hash.empty?
 
     address = find_or_create_address

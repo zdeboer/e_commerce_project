@@ -40,3 +40,10 @@
 <p>PST: <%= number_to_currency(@taxes[:pst]) %></p>
 <p>HST: <%= number_to_currency(@taxes[:hst]) %></p>
 <p><strong>Total: <%= number_to_currency(@total) %></strong></p>
+
+<% if @order.order_status_new? %>
+  <%= button_to "Pay with Stripe",
+        "/checkout/create",
+        method: :post,
+        params: { order_id: @order.id } %>
+<% end %>

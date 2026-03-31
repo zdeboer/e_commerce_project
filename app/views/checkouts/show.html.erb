@@ -22,32 +22,35 @@
     </div>
   <% end %>
 
+  <h3>Or enter a new address (leave blank if using a saved address)</h3>
+
   <div class="field">
     <%= label_tag :address_line1, "Address Line 1" %>
-    <%= text_field_tag :address_line1, nil, required: true %>
+    <%= text_field_tag :address_line1, nil%>
   </div>
 
   <div class="field">
     <%= label_tag :city, "City" %>
-    <%= text_field_tag :city, nil, required: true %>
+    <%= text_field_tag :city, nil%>
   </div>
 
   <div class="field">
     <%= label_tag :state, "Province" %>
     <%= select_tag :state,
-          options_for_select(Province.order(:name).pluck(:name, :code)),
-          include_blank: "Select a province",
-          required: true %>
+      options_for_select(
+        Province.order(:name).map { |p| [p.name, p.code] }
+      ),
+      include_blank: "Select a province" %>
   </div>
 
   <div class="field">
     <%= label_tag :postal_code, "Postal Code" %>
-    <%= text_field_tag :postal_code, nil, required: true %>
+    <%= text_field_tag :postal_code, nil%>
   </div>
 
   <div class="field">
     <%= label_tag :country, "Country" %>
-    <%= text_field_tag :country, "Canada", required: true %>
+    <%= text_field_tag :country, "Canada"%>
   </div>
 
   <hr>

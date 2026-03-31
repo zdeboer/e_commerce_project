@@ -4,10 +4,11 @@ class Order < ApplicationRecord
 
   has_many :order_items, dependent: :destroy
 
-  enum :order_status, { pending: "pending", paid: "paid", shipped: "shipped" }, prefix: true
+  enum :order_status, { new: "new", paid: "paid", shipped: "shipped" }, prefix: true
   enum :payment_status, { unpaid: "unpaid", paid: "paid" }, prefix: true
 
   validates :order_date, :total_amount, presence: true
+  validates :stripe_payment_id, uniqueness: true, allow_nil: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[
