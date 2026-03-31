@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_27_173817) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_31_133845) do
   create_table "addresses", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.string "address_line1"
@@ -120,6 +120,17 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_27_173817) do
     t.string "image_url"
     t.index ["genre_id"], name: "index_products_on_genre_id"
     t.index ["media_type_id"], name: "index_products_on_media_type_id"
+  end
+
+  create_table "provinces", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.decimal "gst", precision: 7, scale: 5, default: "0.0", null: false
+    t.decimal "pst", precision: 7, scale: 5, default: "0.0", null: false
+    t.decimal "hst", precision: 7, scale: 5, default: "0.0", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_provinces_on_code", unique: true
   end
 
   add_foreign_key "addresses", "customers"
