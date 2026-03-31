@@ -8,6 +8,7 @@ class Order < ApplicationRecord
   enum :payment_status, { unpaid: "unpaid", paid: "paid" }, prefix: true
 
   validates :order_date, :total_amount, presence: true
+  validates :stripe_payment_id, uniqueness: true, allow_nil: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[

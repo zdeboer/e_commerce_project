@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_31_133845) do
+ActiveRecord::Schema[7.2].define(version: 2026_03_31_205310) do
   create_table "addresses", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.string "address_line1"
@@ -95,8 +95,10 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_31_133845) do
     t.decimal "total_amount"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "stripe_payment_id"
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.index ["stripe_payment_id"], name: "index_orders_on_stripe_payment_id", unique: true
   end
 
   create_table "product_variations", force: :cascade do |t|

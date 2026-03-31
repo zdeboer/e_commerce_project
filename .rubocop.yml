@@ -6,8 +6,8 @@ AllCops:
   TargetRubyVersion: 3.1
   NewCops: enable
   Exclude:
-    - vendor/**/* # Exclude third-party code
-    - app/views/**/* # Exclude view templates from linting
+    - vendor/**/*
+    - app/views/**/*
     - db/migrate/**/*
     - db/schema.rb
     - config/**/*
