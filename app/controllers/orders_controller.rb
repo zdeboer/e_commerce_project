@@ -18,41 +18,41 @@ class OrdersController < ApplicationController
   }.freeze
 
   NAME_TO_CODE = {
-    "ALBERTA" => "AB",
-    "BRITISH COLUMBIA" => "BC",
-    "MANITOBA" => "MB",
-    "NEW BRUNSWICK" => "NB",
+    "ALBERTA"                   => "AB",
+    "BRITISH COLUMBIA"          => "BC",
+    "MANITOBA"                  => "MB",
+    "NEW BRUNSWICK"             => "NB",
     "NEWFOUNDLAND AND LABRADOR" => "NL",
-    "NOVA SCOTIA" => "NS",
-    "NORTHWEST TERRITORIES" => "NT",
-    "NUNAVUT" => "NU",
-    "ONTARIO" => "ON",
-    "PRINCE EDWARD ISLAND" => "PE",
-    "QUEBEC" => "QC",
-    "SASKATCHEWAN" => "SK",
-    "YUKON" => "YT"
+    "NOVA SCOTIA"               => "NS",
+    "NORTHWEST TERRITORIES"     => "NT",
+    "NUNAVUT"                   => "NU",
+    "ONTARIO"                   => "ON",
+    "PRINCE EDWARD ISLAND"      => "PE",
+    "QUEBEC"                    => "QC",
+    "SASKATCHEWAN"              => "SK",
+    "YUKON"                     => "YT"
   }.freeze
+
+  def index
+    @orders = current_customer.orders.order(order_date: :desc, created_at: :desc)
+  end
 
   def show
     @order = current_customer
-      .orders
-      .includes(:address, order_items: { product_variation: :product })
-      .find(params[:id])
+             .orders
+             .includes(:address, order_items: { product_variation: :product })
+             .find(params[:id])
 
     @items = @order.order_items
 
     @subtotal = @items.sum do |item|
-      (item.total_price || (item.unit_price || 0).to_d * item.quantity.to_i).to_d
+      (item.total_price || ((item.unit_price || 0).to_d * item.quantity.to_i)).to_d
     end
 
     @province_code = normalize_province(@order.address&.state)
     @taxes = compute_taxes(@subtotal, @province_code)
 
     @total = (@order.total_amount || (@subtotal + @taxes.values.sum)).to_d
-  end
-
-  def index
-    @orders = current_customer.orders.order(order_date: :desc, created_at: :desc)
   end
 
   private
@@ -68,11 +68,11 @@ class OrdersController < ApplicationController
   def compute_taxes(subtotal, province_code)
     province = Province.find_by(code: province_code)
     if province
-      gst = subtotal * province.gst
-      pst = subtotal * province.pst
-      hst = subtotal * province.hst
+      province.gst
+      province.pst
+      subtotal * province.hst
     else
-      gst = pst = hst = 0
+      0
     end
   end
 end

@@ -1,74 +1,69 @@
 class CheckoutsController < ApplicationController
-before_action :authenticate_customer!
+  before_action :authenticate_customer!
 
-    def create
-        cart_hash = session[:cart] || {}
-        return redirect_to cart_path, alert: "Your cart is empty." if cart_hash.empty?
+  def show; end
 
-        if params[:address_id].present?
-            address = current_customer.addresses.find(params[:address_id])
-        else
-            attrs = {
-                address_line1: params[:address_line1].to_s.strip,
-                city: params[:city].to_s.strip,
-                state: params[:state].to_s.strip,
-                postal_code: params[:postal_code].to_s.strip,
-                country: params[:country].to_s.strip
-            }
+  def create
+    return redirect_to cart_path, alert: "Your cart is empty." if cart_hash.empty?
 
-            # Try to reuse an existing identical address
-            address = current_customer.addresses.find_by(attrs)
+    address = find_or_create_address
+    subtotal = calculate_subtotal
+    taxes = calculate_taxes(address, subtotal)
 
-            # If not found, create a new one (validations will run here)
-            address ||= current_customer.addresses.create!(attrs)
-        end
+    order = create_order(address, subtotal + taxes.sum)
+    create_order_items(order)
 
-        province_code = address.state&.strip&.upcase
-        province = Province.find_by(code: province_code)
+    session[:cart] = {}
+    redirect_to order_path(order)
+  end
 
-        if province
-        gst = subtotal * province.gst
-        pst = subtotal * province.pst
-        hst = subtotal * province.hst
-        else
-        gst = pst = hst = 0
-        end
+  private
 
-            variations = ProductVariation.includes(:product).where(id: cart_hash.keys)
+  def cart_hash
+    @cart_hash ||= session[:cart] || {}
+  end
 
-            subtotal = variations.sum do |v|
-                v.product.price * cart_hash[v.id.to_s].to_i
-            end
+  def find_or_create_address
+    return current_customer.addresses.find(params[:address_id]) if params[:address_id].present?
 
-        total = subtotal + gst + pst + hst
+    attrs = {
+      address_line1: params[:address_line1].to_s.strip,
+      city:          params[:city].to_s.strip,
+      state:         params[:state].to_s.strip,
+      postal_code:   params[:postal_code].to_s.strip,
+      country:       params[:country].to_s.strip
+    }
+    current_customer.addresses.find_or_create_by!(attrs)
+  end
 
-        order = current_customer.orders.create!(
-            address: address,
-            order_date: Time.current,
-            total_amount: total,
-            order_status: "pending",
-            payment_status: "unpaid",
-            payment_method: "invoice"
-        )
+  def calculate_subtotal
+    @variations = ProductVariation.includes(:product).where(id: cart_hash.keys)
+    @variations.sum { |v| v.product.price * cart_hash[v.id.to_s].to_i }
+  end
 
-        variations.each do |variation|
-            qty = cart_hash[variation.id.to_s].to_i
-            next if qty <= 0
+  def calculate_taxes(address, subtotal)
+    province = Province.find_by(code: address.state&.strip&.upcase)
+    return [0, 0, 0] unless province
 
-            unit_price = variation.product.price
-            order.order_items.create!(
-            product_variation: variation,
-            quantity: qty,
-            unit_price: unit_price,
-            total_price: unit_price * qty
-            )
-        end
+    [subtotal * province.gst, subtotal * province.pst, subtotal * province.hst]
+  end
 
-        session[:cart] = {}
+  def create_order(address, total)
+    current_customer.orders.create!(
+      address: address, total_amount: total, order_date: Time.current,
+      order_status: "pending", payment_status: "unpaid", payment_method: "invoice"
+    )
+  end
 
-        redirect_to order_path(order)
+  def create_order_items(order)
+    @variations.each do |variation|
+      qty = cart_hash[variation.id.to_s].to_i
+      next if qty <= 0
+
+      order.order_items.create!(
+        product_variation: variation, quantity: qty,
+        unit_price: variation.product.price, total_price: variation.product.price * qty
+      )
     end
-
-    def show
-    end
+  end
 end

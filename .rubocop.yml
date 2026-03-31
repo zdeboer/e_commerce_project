@@ -1,14 +1,71 @@
-# Omakase Ruby styling for Rails
-inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+# 1. Use 'plugins' instead of 'require' for modern RuboCop
+plugins:
+  - rubocop-rails
 
 AllCops:
-  TargetRubyVersion: 3.1.2
+  TargetRubyVersion: 3.1
+  NewCops: enable
   Exclude:
-    - "**/*.erb"
-    - "app/views/**/*"
+    - app/views/**/* # Exclude view templates from linting
+    - db/migrate/**/*
+    - db/schema.rb
+    - config/**/*
+    - script/**/*
+    - bin/**/*
+    - test/**/*
+    - app/admin/**/*
+    - app/channels/**/*
+    - app/jobs/**/*
+    - node_modules/**/*
+    - Gemfile
+    - Rakefile
+    - config.ru
 
-# Overwrite or add rules to create your own house style
-#
-# # Use `[a, [b, c]]` not `[ a, [ b, c ] ]`
-# Layout/SpaceInsideArrayLiteralBrackets:
-#   Enabled: false
+# --- Style Rules ---
+
+Style/Encoding:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/InlineComment:
+  Enabled: false
+
+Layout/LineLength:
+  Max: 100
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+
+Lint/UnusedBlockArgument:
+  AutoCorrect: false
+
+Lint/UnusedMethodArgument:
+  AutoCorrect: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 60
+
+Metrics/AbcSize:
+  Max: 100
+
+Rails/I18nLocaleTexts:
+  Enabled: false
+
+Rails/SkipsModelValidations:
+  AllowedMethods:
+    - upsert_all

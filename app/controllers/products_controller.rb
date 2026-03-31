@@ -6,9 +6,7 @@ class ProductsController < ApplicationController
 
     scope = Product.includes(:genre, :media_type)
 
-    if @genre_id.present?
-      scope = scope.where(genre_id: @genre_id)
-    end
+    scope = scope.where(genre_id: @genre_id) if @genre_id.present?
 
     if @q.present?
       escaped = ActiveRecord::Base.sanitize_sql_like(@q)
@@ -20,18 +18,18 @@ class ProductsController < ApplicationController
 
     @sort = params[:sort].to_s
 
-    case @sort
-    when "newest"
-      scope = scope.order(created_at: :desc, name: :asc)
+    scope = case @sort
+            when "newest"
+              scope.order(created_at: :desc, name: :asc)
 
-    when "updated"
-      scope = scope
-                .where("products.updated_at >= ?", 3.days.ago)
-                .order(updated_at: :desc, name: :asc)
+            when "updated"
+              scope
+            .where(products: { updated_at: 3.days.ago.. })
+            .order(updated_at: :desc, name: :asc)
 
-    else
-      scope = scope.order(:name)
-    end
+            else
+              scope.order(:name)
+            end
 
     @products = scope.page(params[:page]).per(12)
   end

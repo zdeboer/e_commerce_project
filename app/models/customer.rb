@@ -8,11 +8,11 @@ class Customer < ApplicationRecord
   has_many :orders, dependent: :destroy
   validates :first_name, :last_name, presence: true
 
-  def self.ransackable_attributes(auth_object = nil)
+  def self.ransackable_attributes(_auth_object = nil)
     %w[first_name last_name email phone created_at updated_at]
   end
 
-  def self.ransackable_associations(auth_object = nil)
+  def self.ransackable_associations(_auth_object = nil)
     %w[addresses orders]
   end
 end
