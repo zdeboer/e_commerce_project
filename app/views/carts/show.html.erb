@@ -1,0 +1,50 @@
+<h1>Your cart</h1>
+
+<% if @line_items.any? %>
+  <table style="border-collapse:collapse;width:100%;max-width:900px;">
+    <thead>
+      <tr>
+        <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Product</th>
+        <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Variation</th>
+        <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">Qty</th>
+        <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">Subtotal</th>
+        <th style="border-bottom:1px solid #ddd;padding:8px;"></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @line_items.each do |line| %>
+        <tr>
+          <td style="border-bottom:1px solid #eee;padding:8px;">
+            <%= link_to line[:product].name, product_path(line[:product]) %>
+          </td>
+
+          <td style="border-bottom:1px solid #eee;padding:8px;">
+            <%= [line[:variation].variation_name, line[:variation].variation_value].compact.join(": ") %>
+          </td>
+
+          <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
+            <%= form_with url: cart_item_path(line[:variation].id), method: :patch, local: true do %>
+              <%= number_field_tag :quantity, line[:quantity], min: 1, style: "width:70px;" %>
+              <%= submit_tag "Update" %>
+            <% end %>
+          </td>
+
+          <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
+            <%= number_to_currency(line[:subtotal]) %>
+          </td>
+
+          <td style="border-bottom:1px solid #eee;padding:8px;">
+            <%= button_to "Remove", cart_item_path(line[:variation].id), method: :delete %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div style="margin-top:16px;">
+    <%= link_to "Proceed to checkout", checkout_path, style: "padding:10px 14px;border:1px solid #ddd;border-radius:8px;display:inline-block;" %>
+  </div>
+<% else %>
+  <p>Your cart is empty.</p>
+<% end %>

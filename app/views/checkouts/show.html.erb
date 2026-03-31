@@ -1,0 +1,46 @@
+<h2>Shipping Address</h2>
+
+<%= form_with url: checkout_path, method: :post do %>
+
+  <% if current_customer.addresses.any? %>
+    <p>Select an existing address:</p>
+    <%= select_tag :address_id,
+        options_from_collection_for_select(
+          current_customer.addresses,
+          :id,
+          :full_display,
+          params[:address_id]
+        ),
+        include_blank: "Use a new address" %>
+
+  <% end %>
+
+  <p>Or enter a new address:</p>
+
+  <p>
+    Address Line 1:
+    <%= text_field_tag :address_line1, nil %>
+  </p>
+
+  <p>
+    City:
+    <%= text_field_tag :city, nil %>
+  </p>
+
+  <p>
+    Province:
+    <%= text_field_tag :state, nil %>
+  </p>
+
+  <p>
+    Postal Code:
+    <%= text_field_tag :postal_code, nil %>
+  </p>
+
+  <p>
+    Country:
+    <%= text_field_tag :country, params[:country] || "Canada" %>
+  </p>
+
+  <%= submit_tag "Place Order" %>
+<% end %>

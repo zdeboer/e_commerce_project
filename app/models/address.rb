@@ -12,5 +12,9 @@ class Address < ApplicationRecord
     %w[customer]
   end
 
+  def full_display
+    "#{address_line1}, #{city}, #{state}, #{postal_code}, #{country}"
+  end
+
   validates :address_line1, :city, :state, :postal_code, :country, presence: true
 end

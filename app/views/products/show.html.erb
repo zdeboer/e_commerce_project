@@ -38,6 +38,7 @@
         <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Option</th>
         <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">SKU</th>
         <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">In stock</th>
+        <th style="border-bottom:1px solid #ddd;padding:8px;"></th>
       </tr>
     </thead>
     <tbody>
@@ -49,6 +50,12 @@
           <td style="border-bottom:1px solid #eee;padding:8px;"><%= variation.sku.presence || "—" %></td>
           <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
             <%= variation.inventory&.quantity || 0 %>
+          </td>
+          <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
+            <%= form_with url: cart_items_path, method: :post, local: true do %>
+              <%= hidden_field_tag :product_variation_id, variation.id %>
+              <%= submit_tag "Add" %>
+            <% end %>
           </td>
         </tr>
       <% end %>

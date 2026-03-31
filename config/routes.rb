@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   resources :genres, only: [ :show ]
   resource :cart, only: [ :show ]
   resources :cart_items, only: [ :create, :update, :destroy ]
+  resource :checkout, only: [ :show, :create ]
+  resources :orders, only: [ :index, :show ]
 
   get "up" => "rails/health#show", as: :rails_health_check
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
