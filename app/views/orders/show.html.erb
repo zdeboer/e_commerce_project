@@ -1,6 +1,6 @@
 <h1>Order placed</h1>
 
-<p>Order # <%= @order.id %></p>
+<p>Order  <%= @order.id %></p>
 <p>Status: <%= @order.order_status %> / <%= @order.payment_status %></p>
 <p>Province: <%= @province_code.presence || (@order.address&.state || "—") %></p>
 
