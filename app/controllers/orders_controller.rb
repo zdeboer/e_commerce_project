@@ -66,12 +66,13 @@ class OrdersController < ApplicationController
   end
 
   def compute_taxes(subtotal, province_code)
-    rates = TAX_RATES.fetch(province_code, { gst: 0.0, pst: 0.0, hst: 0.0 })
-
-    {
-      gst: (subtotal * rates[:gst]).round(2),
-      pst: (subtotal * rates[:pst]).round(2),
-      hst: (subtotal * rates[:hst]).round(2)
-    }
+    province = Province.find_by(code: province_code)
+    if province
+      gst = subtotal * province.gst
+      pst = subtotal * province.pst
+      hst = subtotal * province.hst
+    else
+      gst = pst = hst = 0
+    end
   end
 end

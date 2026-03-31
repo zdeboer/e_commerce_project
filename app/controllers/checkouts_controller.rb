@@ -23,53 +23,22 @@ before_action :authenticate_customer!
             address ||= current_customer.addresses.create!(attrs)
         end
 
-        rates = {
-            "MB" => { gst: 0.05, pst: 0.07, hst: 0.0 },
-            "ON" => { gst: 0.0, pst: 0.0, hst: 0.13 },
-            "BC" => { gst: 0.05, pst: 0.07, hst: 0.0 },
-            "AB" => { gst: 0.05, pst: 0.0, hst: 0.0 },
-            "QC" => { gst: 0.05, pst: 0.09975, hst: 0.0 },
-            "NS" => { gst: 0.0, pst: 0.0, hst: 0.15 },
-            "NB" => { gst: 0.0, pst: 0.0, hst: 0.15 },
-            "NL" => { gst: 0.0, pst: 0.0, hst: 0.15 },
-            "PE" => { gst: 0.0, pst: 0.0, hst: 0.15 },
-            "SK" => { gst: 0.05, pst: 0.06, hst: 0.0 },
-            "NT" => { gst: 0.05, pst: 0.0, hst: 0.0 },
-            "NU" => { gst: 0.05, pst: 0.0, hst: 0.0 },
-            "YT" => { gst: 0.05, pst: 0.0, hst: 0.0 }
-            }
+        province_code = address.state&.strip&.upcase
+        province = Province.find_by(code: province_code)
 
-            raw_province = address.state.to_s.strip.upcase
-            name_to_code = {
-                "MANITOBA" => "MB",
-                "ONTARIO" => "ON",
-                "BRITISH COLUMBIA" => "BC",
-                "ALBERTA" => "AB",
-                "QUEBEC" => "QC",
-                "NOVA SCOTIA" => "NS",
-                "NEW BRUNSWICK" => "NB",
-                "NEWFOUNDLAND AND LABRADOR" => "NL",
-                "PRINCE EDWARD ISLAND" => "PE",
-                "SASKATCHEWAN" => "SK",
-                "NORTHWEST TERRITORIES" => "NT",
-                "NUNAVUT" => "NU",
-                "YUKON" => "YT"
-                }
-
-                # If user typed "Manitoba", convert to "MB"
-                province_code = name_to_code[raw_province] || raw_province
+        if province
+        gst = subtotal * province.gst
+        pst = subtotal * province.pst
+        hst = subtotal * province.hst
+        else
+        gst = pst = hst = 0
+        end
 
             variations = ProductVariation.includes(:product).where(id: cart_hash.keys)
 
             subtotal = variations.sum do |v|
                 v.product.price * cart_hash[v.id.to_s].to_i
             end
-
-            rate = rates[province_code] || { gst: 0.0, pst: 0.0, hst: 0.0 }
-
-            gst = subtotal * rate[:gst]
-            pst = subtotal * rate[:pst]
-            hst = subtotal * rate[:hst]
 
         total = subtotal + gst + pst + hst
 

@@ -71,6 +71,26 @@ Address.create!(
   country: "Canada"
 )
 
+puts "Seeding provinces..."
+Province.upsert_all(
+  [
+    { name: "Alberta",              code: "AB", gst: 0.05,    pst: 0.0,     hst: 0.0 },
+    { name: "British Columbia",     code: "BC", gst: 0.05,    pst: 0.07,    hst: 0.0 },
+    { name: "Manitoba",             code: "MB", gst: 0.05,    pst: 0.07,    hst: 0.0 },
+    { name: "New Brunswick",        code: "NB", gst: 0.0,     pst: 0.0,     hst: 0.15 },
+    { name: "Newfoundland and Labrador", code: "NL", gst: 0.0, pst: 0.0,    hst: 0.15 },
+    { name: "Nova Scotia",          code: "NS", gst: 0.0,     pst: 0.0,     hst: 0.15 },
+    { name: "Northwest Territories", code: "NT", gst: 0.05,    pst: 0.0,     hst: 0.0 },
+    { name: "Nunavut",              code: "NU", gst: 0.05,    pst: 0.0,     hst: 0.0 },
+    { name: "Ontario",              code: "ON", gst: 0.0,     pst: 0.0,     hst: 0.13 },
+    { name: "Prince Edward Island", code: "PE", gst: 0.0,     pst: 0.0,     hst: 0.15 },
+    { name: "Quebec",               code: "QC", gst: 0.05,    pst: 0.09975, hst: 0.0 },
+    { name: "Saskatchewan",         code: "SK", gst: 0.05,    pst: 0.06,    hst: 0.0 },
+    { name: "Yukon",                code: "YT", gst: 0.05,    pst: 0.0,     hst: 0.0 }
+  ],
+  unique_by: :index_provinces_on_code
+)
+
 # TMDb API setup
 TMDB_API_KEY = ENV.fetch("TMDB_API_KEY", "").to_s.strip
 TMDB_BASE = "https://api.themoviedb.org/3"
