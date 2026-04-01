@@ -45,7 +45,7 @@ Rails.logger.debug "Creating genres..."
 
 Rails.logger.debug "Creating demo admin + customer..."
 AdminUser.create!(
-  email:                 "zackdb2005@gmail.com",
+  email:                 "admin@user.com",
   password:              "AlphaArrow77*",
   password_confirmation: "AlphaArrow77*"
 )
