@@ -62,4 +62,5 @@ gem "image_processing"
 gem "stripe"
 gem "rubocop-rails"
 gem "sassc-rails"
+gem "bootstrap", "~> 5.3"
 gem "dotenv-rails", groups: [ :development, :test ]

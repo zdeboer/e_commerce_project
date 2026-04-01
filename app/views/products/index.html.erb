@@ -1,15 +1,20 @@
 <% content_for :title, "Products" %>
 
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item active" aria-current="page">Products</li>
+<% end %>
+
 <h1>Products</h1>
 
 <%= form_with url: products_path, method: :get, local: true do %>
-  <div style="margin: 12px 0; display:flex; gap:8px; align-items:center;">
-    <%= text_field_tag :q, params[:q], placeholder: "Search products…", style: "flex:1; padding:8px;" %>
+  <div class="product-filters">
+    <%= text_field_tag :q, params[:q], placeholder: "Search products…" %>
+
     <%= select_tag :genre_id,
       options_from_collection_for_select(@genres, :id, :name, params[:genre_id]),
-      include_blank: "All genres",
-      style: "padding:8px;"
-    %>
+      include_blank: "All genres" %>
+
     <%= select_tag :sort,
       options_for_select(
         [
@@ -18,43 +23,48 @@
           ["Recently updated", "updated"]
         ],
         params[:sort].to_s
-      ),
-      style: "padding: 8px;"
-    %>
-    <%= submit_tag "Search", style: "padding:8px 12px;" %>
+      ) %>
+
+    <%= submit_tag "Search" %>
+
     <% if params[:q].present? || params[:genre_id].present? || params[:sort].present? %>
-      <%= link_to "Clear", products_path, style: "padding:8px 12px;" %>
+      <%= link_to "Clear", products_path %>
     <% end %>
   </div>
 <% end %>
 
 <% if @products.any? %>
-  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px;">
+  <div class="product-grid">
     <% @products.each do |product| %>
-      <div style="border:1px solid #ddd;padding:12px;border-radius:8px;">
+      <div class="product-card">
         <% if product.image_url.present? %>
-          <div style="margin-bottom:8px;">
-            <%= image_tag product.image_url, alt: product.name, loading: "lazy", style: "max-width:100%;height:auto;border-radius:6px;" %>
+          <div class="product-image">
+            <%= image_tag product.image_url, alt: product.name, loading: "lazy" %>
           </div>
         <% end %>
 
-        <div style="font-weight:600;">
+        <div class="product-name">
           <%= link_to product.name, product_path(product) %>
         </div>
 
-        <div style="font-size:14px;opacity:0.8;">
-          <%= product.genre&.name %> · <%= product.media_type&.name %>
+        <div class="product-meta">
+          <%= product.genre&.name %>
+          <% if product.media_type.present? %>
+            · <%= product.media_type.name %>
+          <% end %>
         </div>
 
-        <div style="margin-top:6px;">
+        <div class="product-price">
           <%= number_to_currency(product.price) if product.price.present? %>
         </div>
       </div>
     <% end %>
   </div>
-  <div style="margin-top:16px;"> 
-    <%= paginate @products, params: request.query_parameters %> 
+
+  <div class="pagination-block">
+    <%= paginate @products, params: request.query_parameters %>
   </div>
+
 <% else %>
   <p>No products found.</p>
 <% end %>

@@ -1,0 +1,7 @@
+<% if content_for?(:breadcrumbs) %>
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <%= yield :breadcrumbs %>
+    </ol>
+  </nav>
+<% end %>

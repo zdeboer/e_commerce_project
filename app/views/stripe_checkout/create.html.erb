@@ -1,7 +1,14 @@
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Orders", orders_path %></li>
+  <li class="breadcrumb-item active" aria-current="page">Redirecting</li>
+<% end %>
+
 <h1>Redirecting to Payment</h1>
 
 <p>You are being redirected to Stripe to complete your payment.</p>
 
-<p>If you are not redirected automatically, 
-  <a href="<%= @session_url %>">click here to continue</a>.
+<p>
+  If you are not redirected automatically,
+  <%= link_to "click here to continue", @session_url %>.
 </p>

@@ -1,33 +1,45 @@
-<h1>Order placed</h1>
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Orders", orders_path %></li>
+  <li class="breadcrumb-item active" aria-current="page">Order <%= @order.id %></li>
+<% end %>
 
-<p>Order  <%= @order.id %></p>
-<p>Status: <%= @order.order_status %> / <%= @order.payment_status %></p>
-<p>Province: <%= @province_code.presence || (@order.address&.state || "—") %></p>
+<h1>Order Placed</h1>
+
+<p><strong>Order:</strong> <%= @order.id %></p>
+<p><strong>Status:</strong> <%= @order.order_status %> / <%= @order.payment_status %></p>
+<p><strong>Province:</strong> <%= @province_code.presence || (@order.address&.state || "—") %></p>
 
 <h2>Items</h2>
 
-<table style="border-collapse:collapse;width:100%;max-width:900px;">
+<table>
   <thead>
     <tr>
-      <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Product</th>
-      <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Variation</th>
-      <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">Qty</th>
-      <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">Unit</th>
-      <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">Line total</th>
+      <th>Product</th>
+      <th>Variation</th>
+      <th>Qty</th>
+      <th>Unit</th>
+      <th>Line Total</th>
     </tr>
   </thead>
+
   <tbody>
     <% @items.each do |item| %>
       <% variation = item.product_variation %>
       <% product = variation&.product %>
+
       <tr>
-        <td style="border-bottom:1px solid #eee;padding:8px;"><%= product&.name || "—" %></td>
-        <td style="border-bottom:1px solid #eee;padding:8px;">
+        <td><%= product&.name || "—" %></td>
+
+        <td>
           <%= [variation&.variation_name, variation&.variation_value].compact.join(": ").presence || "—" %>
         </td>
-        <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;"><%= item.quantity.to_i %></td>
-        <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;"><%= number_to_currency(item.unit_price) %></td>
-        <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;"><%= number_to_currency(item.total_price) %></td>
+
+        <td><%= item.quantity.to_i %></td>
+
+        <td><%= number_to_currency(item.unit_price) %></td>
+
+        <td><%= number_to_currency(item.total_price) %></td>
       </tr>
     <% end %>
   </tbody>
@@ -35,11 +47,12 @@
 
 <h2>Totals</h2>
 
-<p>Subtotal: <%= number_to_currency(@subtotal) %></p>
-<p>GST: <%= number_to_currency(@taxes[:gst]) %></p>
-<p>PST: <%= number_to_currency(@taxes[:pst]) %></p>
-<p>HST: <%= number_to_currency(@taxes[:hst]) %></p>
-<p><strong>Total: <%= number_to_currency(@total) %></strong></p>
+<p><strong>Subtotal:</strong> <%= number_to_currency(@subtotal) %></p>
+<p><strong>GST:</strong> <%= number_to_currency(@taxes[:gst]) %></p>
+<p><strong>PST:</strong> <%= number_to_currency(@taxes[:pst]) %></p>
+<p><strong>HST:</strong> <%= number_to_currency(@taxes[:hst]) %></p>
+
+<p><strong>Total:</strong> <%= number_to_currency(@total) %></p>
 
 <% if @order.order_status_new? %>
   <%= button_to "Pay with Stripe",

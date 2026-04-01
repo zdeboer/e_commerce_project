@@ -1,16 +1,23 @@
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Cart", cart_path %></li>
+  <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+<% end %>
+
 <h1>Checkout</h1>
 
 <% if cart_hash.empty? %>
   <p>Your cart is empty.</p>
-  <%= link_to "Back to products", products_path %>
+  <p><%= link_to "Back to products", products_path %></p>
   <% return %>
 <% end %>
 
 <h2>Shipping Address</h2>
 
 <%= form_with url: checkout_path, method: :post, local: true do |f| %>
+
   <% if current_customer.addresses.any? %>
-    <div class="field">
+    <div>
       <%= label_tag :address_id, "Choose a saved address" %>
       <%= select_tag :address_id,
             options_from_collection_for_select(
@@ -24,17 +31,17 @@
 
   <h3>Or enter a new address (leave blank if using a saved address)</h3>
 
-  <div class="field">
+  <div>
     <%= label_tag :address_line1, "Address Line 1" %>
-    <%= text_field_tag :address_line1, nil%>
+    <%= text_field_tag :address_line1 %>
   </div>
 
-  <div class="field">
+  <div>
     <%= label_tag :city, "City" %>
-    <%= text_field_tag :city, nil%>
+    <%= text_field_tag :city %>
   </div>
 
-  <div class="field">
+  <div>
     <%= label_tag :state, "Province" %>
     <%= select_tag :state,
       options_for_select(
@@ -43,36 +50,37 @@
       include_blank: "Select a province" %>
   </div>
 
-  <div class="field">
+  <div>
     <%= label_tag :postal_code, "Postal Code" %>
-    <%= text_field_tag :postal_code, nil%>
+    <%= text_field_tag :postal_code %>
   </div>
 
-  <div class="field">
+  <div>
     <%= label_tag :country, "Country" %>
-    <%= text_field_tag :country, "Canada"%>
+    <%= text_field_tag :country, "Canada" %>
   </div>
 
   <hr>
 
   <h2>Order Summary</h2>
 
-  <table style="width:100%;border-collapse:collapse;">
+  <table>
     <thead>
       <tr>
-        <th style="text-align:left;">Product</th>
-        <th style="text-align:right;">Qty</th>
-        <th style="text-align:right;">Price</th>
+        <th>Product</th>
+        <th>Qty</th>
+        <th>Price</th>
       </tr>
     </thead>
+
     <tbody>
       <% @variations = ProductVariation.includes(:product).where(id: cart_hash.keys) %>
       <% @variations.each do |variation| %>
         <% qty = cart_hash[variation.id.to_s].to_i %>
         <tr>
           <td><%= variation.product.name %></td>
-          <td style="text-align:right;"><%= qty %></td>
-          <td style="text-align:right;"><%= number_to_currency(variation.product.price * qty) %></td>
+          <td><%= qty %></td>
+          <td><%= number_to_currency(variation.product.price * qty) %></td>
         </tr>
       <% end %>
     </tbody>
@@ -85,6 +93,6 @@
   <p><strong>Subtotal:</strong> <%= number_to_currency(subtotal) %></p>
   <p>Taxes will be calculated after you submit your order.</p>
 
-  <%= submit_tag "Place Order", class: "button" %>
+  <%= submit_tag "Place Order" %>
 
 <% end %>

@@ -1,6 +1,7 @@
 <% content_for :title, "Home" %>
 
 <h1>For the Record</h1>
+
 <p>Browse products by category or view the full catalog.</p>
 
 <p>
@@ -8,23 +9,29 @@
 </p>
 
 <h2>Genres</h2>
+
 <% if @genres.any? %>
   <ul>
     <% @genres.each do |genre| %>
-      <li><%= link_to genre.name, genre_path(genre) %></li>
+      <li>
+        <%= link_to genre.name, genre_path(genre) %>
+      </li>
     <% end %>
   </ul>
 <% else %>
   <p>No genres yet.</p>
 <% end %>
 
-<h2>New arrivals</h2>
+<h2>New Arrivals</h2>
+
 <% if @featured_products.any? %>
   <ul>
     <% @featured_products.each do |product| %>
       <li>
         <%= link_to product.name, product_path(product) %>
-        — <%= number_to_currency(product.price) if product.price.present? %>
+        <% if product.price.present? %>
+          — <%= number_to_currency(product.price) %>
+        <% end %>
       </li>
     <% end %>
   </ul>

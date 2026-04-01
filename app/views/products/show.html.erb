@@ -1,12 +1,16 @@
 <% content_for :title, @product.name %>
 
-<p><%= link_to "← Back to products", products_path %></p>
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Products", products_path %></li>
+  <li class="breadcrumb-item active" aria-current="page"><%= @product.name %></li>
+<% end %>
 
 <h1><%= @product.name %></h1>
 
 <% if @product.image_url.present? %>
-  <div style="max-width:420px;">
-    <%= image_tag @product.image_url, alt: @product.name, style: "max-width:100%;height:auto;border-radius:8px;" %>
+  <div class="product-image">
+    <%= image_tag @product.image_url, alt: @product.name %>
   </div>
 <% end %>
 
@@ -30,28 +34,35 @@
   <p><%= @product.description %></p>
 <% end %>
 
-<h2>Available formats</h2>
+<h2>Available Formats</h2>
+
 <% if @variations.any? %>
-  <table style="border-collapse:collapse;width:100%;max-width:720px;">
+  <table>
     <thead>
       <tr>
-        <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">Option</th>
-        <th style="text-align:left;border-bottom:1px solid #ddd;padding:8px;">SKU</th>
-        <th style="text-align:right;border-bottom:1px solid #ddd;padding:8px;">In stock</th>
-        <th style="border-bottom:1px solid #ddd;padding:8px;"></th>
+        <th>Option</th>
+        <th>SKU</th>
+        <th>In Stock</th>
+        <th></th>
       </tr>
     </thead>
+
     <tbody>
       <% @variations.each do |variation| %>
         <tr>
-          <td style="border-bottom:1px solid #eee;padding:8px;">
+          <td>
             <%= [variation.variation_name, variation.variation_value].compact.join(": ") %>
           </td>
-          <td style="border-bottom:1px solid #eee;padding:8px;"><%= variation.sku.presence || "—" %></td>
-          <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
+
+          <td>
+            <%= variation.sku.presence || "—" %>
+          </td>
+
+          <td>
             <%= variation.inventory&.quantity || 0 %>
           </td>
-          <td style="border-bottom:1px solid #eee;padding:8px;text-align:right;">
+
+          <td>
             <%= form_with url: cart_items_path, method: :post, local: true do %>
               <%= hidden_field_tag :product_variation_id, variation.id %>
               <%= submit_tag "Add" %>

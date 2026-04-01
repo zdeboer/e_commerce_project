@@ -1,0 +1,11 @@
+body {
+  font-family: $font-base;
+  font-size: $font-size-base;
+  color: $color-dark;
+  background: $color-light;
+}
+
+h1, h2, h3 {
+  margin-bottom: $space-3;
+  font-weight: 600;
+}

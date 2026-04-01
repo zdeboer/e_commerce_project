@@ -1,0 +1,21 @@
+.product-card {
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  padding: $space-3;
+  background: white;
+
+  .product-name {
+    font-weight: 600;
+    margin-bottom: $space-2;
+  }
+
+  .product-meta {
+    font-size: 14px;
+    opacity: 0.7;
+    margin-bottom: $space-2;
+  }
+
+  .product-price {
+    font-weight: 600;
+  }
+}

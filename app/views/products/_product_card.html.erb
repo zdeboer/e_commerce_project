@@ -1,0 +1,9 @@
+<div class="product-card">
+  <h3><%= product.name %></h3>
+
+  <p><%= number_to_currency(product.lowest_price) %></p>
+
+  <p>
+    <%= link_to "View", product_path(product) %>
+  </p>
+</div>

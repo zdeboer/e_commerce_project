@@ -1,41 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title><%= content_for(:title) || "E Commerce Project" %></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta charset="utf-8">
+
+    <title>
+      <%= content_for?(:title) ? yield(:title) : "My Store" %>
+    </title>
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= yield :head %>
-
-    <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
-    <header style="border-bottom:1px solid #eee;padding:12px 16px;">
-      <nav style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-        <%= link_to "Home", root_path %>
-        <%= link_to "Products", products_path %>
-        <%= link_to "Cart", cart_path %>
-        <%= link_to "Orders", orders_path %>
-        <a href="/admin">Admin</a>
-        <% if customer_signed_in? %>
-        <%= button_to "Sign out", destroy_customer_session_path, method: :delete, form: { style: "display:inline" } %>
-        <% else %>
-        <%= link_to "Sign up", new_customer_registration_path %>
-        <%= link_to "Sign in", new_customer_session_path %>
-        <% end %>
-      </nav>
+    <header>
+      <%= render "shared/navbar" %>
     </header>
 
-    <main style="padding:16px;max-width:960px;margin:0 auto;">
+    <main class="container my-4">
+      <%= render "shared/breadcrumbs" %>
       <%= yield %>
     </main>
+
+    <footer class="mt-5 mb-3 text-center text-muted">
+      &copy; <%= Time.current.year %> My Store
+    </footer>
   </body>
 </html>

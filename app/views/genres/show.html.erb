@@ -1,6 +1,8 @@
-<% content_for :title, @genre.name %>
-
-<p><%= link_to "← Home", root_path %></p>
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Genres", genres_path %></li>
+  <li class="breadcrumb-item active" aria-current="page"><%= @genre.name %></li>
+<% end %>
 
 <h1><%= @genre.name %></h1>
 
@@ -9,8 +11,12 @@
     <% @products.each do |product| %>
       <li>
         <%= link_to product.name, product_path(product) %>
-        — <%= number_to_currency(product.price) if product.price.present? %>
-        (<%= product.media_type&.name %>)
+        <% if product.price.present? %>
+          — <%= number_to_currency(product.price) %>
+        <% end %>
+        <% if product.media_type.present? %>
+          (<%= product.media_type.name %>)
+        <% end %>
       </li>
     <% end %>
   </ul>

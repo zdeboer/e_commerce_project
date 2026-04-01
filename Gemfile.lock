@@ -97,6 +97,8 @@ GEM
     bindex (0.8.1)
     bootsnap (1.23.0)
       msgpack (~> 1.2)
+    bootstrap (5.3.8)
+      popper_js (>= 2.11.8, < 3)
     brakeman (7.1.1)
       racc
     builder (3.3.0)
@@ -223,6 +225,7 @@ GEM
     parser (3.3.10.2)
       ast (~> 2.4.1)
       racc
+    popper_js (2.11.8)
     pp (0.6.3)
       prettyprint
     prettyprint (0.2.0)
@@ -385,6 +388,7 @@ PLATFORMS
 DEPENDENCIES
   activeadmin
   bootsnap
+  bootstrap (~> 5.3)
   brakeman
   capybara
   debug

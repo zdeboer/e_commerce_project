@@ -1,3 +1,9 @@
+<% content_for :breadcrumbs do %>
+  <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
+  <li class="breadcrumb-item"><%= link_to "Orders", orders_path %></li>
+  <li class="breadcrumb-item active" aria-current="page">Payment Successful</li>
+<% end %>
+
 <h1>Payment Successful</h1>
 
 <p>Thank you for your purchase. Your payment has been processed successfully.</p>

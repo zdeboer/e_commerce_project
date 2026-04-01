@@ -1,0 +1,10 @@
+.product-filters {
+  display: flex;
+  gap: $space-2;
+  margin: $space-3 0;
+
+  input,
+  select {
+    padding: $space-2;
+  }
+}
