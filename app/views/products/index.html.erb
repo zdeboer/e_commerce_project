@@ -36,28 +36,7 @@
 <% if @products.any? %>
   <div class="product-grid">
     <% @products.each do |product| %>
-      <div class="product-card">
-        <% if product.image_url.present? %>
-          <div class="product-image">
-            <%= image_tag product.image_url, alt: product.name, loading: "lazy" %>
-          </div>
-        <% end %>
-
-        <div class="product-name">
-          <%= link_to product.name, product_path(product) %>
-        </div>
-
-        <div class="product-meta">
-          <%= product.genre&.name %>
-          <% if product.media_type.present? %>
-            · <%= product.media_type.name %>
-          <% end %>
-        </div>
-
-        <div class="product-price">
-          <%= number_to_currency(product.price) if product.price.present? %>
-        </div>
-      </div>
+      <%= render "products/product_card", product: product %>
     <% end %>
   </div>
 

@@ -1,9 +1,23 @@
 <div class="product-card">
-  <h3><%= product.name %></h3>
 
-  <p><%= number_to_currency(product.lowest_price) %></p>
+  <%= link_to product_path(product), class: "product-image" do %>
+    <%= image_tag product.image_url, alt: product.name %>
+  <% end %>
 
-  <p>
-    <%= link_to "View", product_path(product) %>
-  </p>
+  <div class="product-body">
+    <h3 class="product-name">
+      <%= link_to product.name, product_path(product) %>
+    </h3>
+
+    <p class="product-meta">
+      <%= product.genre&.name %> · <%= product.media_type&.name %>
+    </p>
+
+    <p class="product-price">
+      <%= number_to_currency(product.price) %>
+    </p>
+
+    <%= link_to "Buy Now", product_path(product), class: "view-button" %>
+  </div>
+
 </div>

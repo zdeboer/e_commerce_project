@@ -1,19 +1,50 @@
 .product-card {
   @extend .card;
-  padding: 0;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 
-  .product-image img {
-    @extend .card-img-top;
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  .product-image {
+    background: #fff;
+    border-bottom: 1px solid $color-border;
+
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+  }
+
+  .product-body {
+    padding: 16px;
   }
 
   .product-name {
     @extend .card-title;
-    font-size: 1.1rem;
+    font-size: 1.15rem;
+    font-weight: 600;
     margin-bottom: $space-2;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .product-meta {
     @extend .card-text;
+    font-size: 0.9rem;
     opacity: 0.7;
     margin-bottom: $space-2;
   }
@@ -21,11 +52,28 @@
   .product-price {
     @extend .card-text;
     font-weight: 600;
+    margin-bottom: $space-3;
   }
 
-  a {
-    @extend .btn;
-    @extend .btn-primary;
-    margin-top: $space-2;
+  .view-button {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    border-radius: 0.25rem;
+    text-align: center;
+    text-decoration: none;
+
+    background-color: $primary;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+
+    transition: background-color 0.15s ease, transform 0.15s ease;
+
+    &:hover {
+        background-color: darken($primary, 8%);
+        color: #fff;
+        transform: translateY(-1px);
+    }
   }
 }

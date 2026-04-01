@@ -1,25 +1,13 @@
 <% content_for :breadcrumbs do %>
   <li class="breadcrumb-item"><%= link_to "Home", root_path %></li>
-  <li class="breadcrumb-item"><%= link_to "Genres", genres_path %></li>
+  <li class="breadcrumb-item">Genres</li>
   <li class="breadcrumb-item active" aria-current="page"><%= @genre.name %></li>
 <% end %>
 
 <h1><%= @genre.name %></h1>
 
-<% if @products.any? %>
-  <ul>
-    <% @products.each do |product| %>
-      <li>
-        <%= link_to product.name, product_path(product) %>
-        <% if product.price.present? %>
-          — <%= number_to_currency(product.price) %>
-        <% end %>
-        <% if product.media_type.present? %>
-          (<%= product.media_type.name %>)
-        <% end %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No products in this genre yet.</p>
-<% end %>
+<div class="product-grid">
+  <% @products.each do |product| %>
+    <%= render "products/product_card", product: product %>
+  <% end %>
+</div>
