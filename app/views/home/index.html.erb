@@ -1,40 +1,60 @@
 <% content_for :title, "Home" %>
 
-<h1>For the Record</h1>
+<section class="hero">
+  <div class="container">
+    <div class="hero__content">
+      <h1 class="hero__title">For the Record</h1>
+      <p class="hero__lead">Discover your next favorite sound. Browse our curated collection of records and gear.</p>
+      <div class="hero__actions">
+        <%= link_to "Browse all products", products_path, class: "btn btn--primary btn--large" %>
+      </div>
+      <br>
+    </div>
+  </div>
+</section>
 
-<p>Browse products by category or view the full catalog.</p>
+<section class="section section--genres">
+  <div class="container">
+    <header class="section__header">
+      <h2 class="section__title">Shop by Genre</h2>
+    </header>
 
-<p>
-  <%= link_to "Browse all products", products_path %>
-</p>
-
-<h2>Genres</h2>
-
-<% if @genres.any? %>
-  <ul>
-    <% @genres.each do |genre| %>
-      <li>
-        <%= link_to genre.name, genre_path(genre) %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>No genres yet.</p>
-<% end %>
-
-<h2>New Arrivals</h2>
-
-<% if @featured_products.any? %>
-  <ul>
-    <% @featured_products.each do |product| %>
-      <li>
-        <%= link_to product.name, product_path(product) %>
-        <% if product.price.present? %>
-          — <%= number_to_currency(product.price) %>
+    <% if @genres.any? %>
+      <ul class="genre-grid">
+        <% @genres.each do |genre| %>
+          <li>
+            <%= link_to genre.name, genre_path(genre), class: "btn btn--genre" %>
+          </li>
         <% end %>
-      </li>
+      </ul>
+    <% else %>
+      <div class="empty-state">
+        <p>No genres found.</p>
+      </div>
     <% end %>
-  </ul>
-<% else %>
-  <p>No products yet.</p>
-<% end %>
+
+  </div>
+</section>
+
+<section class="section section--featured">
+  <div class="container">
+    <header class="section__header">
+      <h2 class="section__title">New Arrivals</h2>
+      <%= link_to "View All", products_path, class: "btn btn--genre" %>
+      
+    </header>
+
+    <br>
+    <% if @featured_products.any? %>
+      <div class="product-grid">
+        <% @featured_products.each do |product| %>
+          <%= render "products/product_card", product: product %>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <p>No products featured right now.</p>
+      </div>
+    <% end %>
+  </div>
+</section>

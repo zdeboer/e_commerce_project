@@ -1,5 +1,7 @@
 ActiveAdmin.register Customer do
-  permit_params :first_name, :last_name, :email, :phone
+  permit_params :first_name, :last_name, :email, :phone,
+              :password, :password_confirmation
+
 
   # SAFE FILTERS ONLY
   filter :first_name
@@ -27,6 +29,12 @@ ActiveAdmin.register Customer do
       f.input :last_name
       f.input :email
       f.input :phone
+
+      if f.object.new_record?
+        f.input :password
+        f.input :password_confirmation
+      end
+
     end
     f.actions
   end

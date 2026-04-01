@@ -4,15 +4,16 @@
     <meta charset="utf-8">
 
     <title>
-      <%= content_for?(:title) ? yield(:title) : "My Store" %>
+      <%= content_for?(:title) ? yield(:title) : "For the Record" %>
     </title>
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
   </head>
 
   <body>
@@ -28,5 +29,17 @@
     <footer class="mt-5 mb-3 text-center text-muted">
       &copy; <%= Time.current.year %> My Store
     </footer>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggler = document.querySelector(".navbar-toggler");
+        const menu = document.querySelector("#mainNavbar");
+
+        if (toggler && menu) {
+          toggler.addEventListener("click", function () {
+            menu.classList.toggle("show");
+          });
+        }
+      });
+    </script>
   </body>
 </html>

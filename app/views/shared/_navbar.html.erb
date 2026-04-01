@@ -1,28 +1,35 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark" data-controller="navbar">
   <div class="container-fluid">
 
-    <%= link_to "My Store", root_path, class: "navbar-brand" %>
+    <%= link_to "For the Record", root_path, class: "navbar-brand" %>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar"
-            aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler"
+            type="button"
+            data-action="navbar#toggle">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="mainNavbar">
+    <div class="collapse navbar-collapse" id="mainNavbar" data-navbar-target="menu">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item"><%= link_to "Home", root_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Products", products_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Cart", cart_path, class: "nav-link" %></li>
-        <li class="nav-item"><%= link_to "Orders", orders_path, class: "nav-link" %></li>
+        <li class="nav-item ms-3"><%= link_to "Home", root_path, class: "nav-link" %></li>
+        <li class="nav-item ms-3"><%= link_to "Products", products_path, class: "nav-link" %></li>
+        <li class="nav-item ms-3"><%= link_to "Cart", cart_path, class: "nav-link" %></li>
+        <li class="nav-item ms-3"><%= link_to "Orders", orders_path, class: "nav-link" %></li>
+
+        <% if admin_user_signed_in? %>
+          <li class="nav-item ms-3">
+            <%= link_to "Admin", admin_root_path, class: "nav-link" %>
+          </li>
+        <% end %>
       </ul>
 
       <ul class="navbar-nav ms-auto">
         <% if customer_signed_in? %>
-          <li class="nav-item">
+          <li class="nav-item ms-3">
             <span class="navbar-text me-2">Hi, <%= current_customer.first_name %></span>
           </li>
-          <li class="nav-item">
+          <li class="nav-item ms-3">
             <%= button_to "Logout",
                   destroy_customer_session_path,
                   method: :delete,
@@ -30,8 +37,15 @@
                   class: "nav-link btn btn-link p-0" %>
           </li>
         <% else %>
-          <li class="nav-item"><%= link_to "Login", new_customer_session_path, class: "nav-link" %></li>
-          <li class="nav-item"><%= link_to "Sign Up", new_customer_registration_path, class: "nav-link" %></li>
+          <li class="nav-item ms-3">
+            <%= link_to "Customer Login", new_customer_session_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item ms-3">
+            <%= link_to "Admin Login", new_admin_user_session_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item ms-3">
+            <%= link_to "Sign Up", new_customer_registration_path, class: "nav-link" %>
+          </li>
         <% end %>
       </ul>
 

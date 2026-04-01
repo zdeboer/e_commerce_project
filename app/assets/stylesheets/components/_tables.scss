@@ -5,7 +5,90 @@ table {
   @extend .align-middle;
 }
 
-.pagination {
-  @extend .pagination;
+/* Pagination bar (works well with Kaminari / will_paginate markup) */
+// 1. Create a placeholder for the shared button styles
+%pagination-item {
+  display: inline-flex;
+  align-items: center;
   justify-content: center;
+  
+  min-width: 2.25rem;
+  height: 2.25rem;
+  padding: 0 0.75rem;
+  box-sizing: border-box; // Ensures borders don't grow the box
+
+  background: #fff;
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  color: $primary;
 }
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: $space-2;
+  margin: $space-3 0;
+  padding: 0;
+  list-style: none;
+
+  // 1. Reset the list items so they don't create a "second box"
+  li, .page, .next, .prev, .first, .last, .gap {
+    display: flex; 
+    padding: 0;
+    margin: 0;
+  }
+
+  // 2. Apply styles ONLY to the clickable/visible element inside
+  a, 
+  span {
+    @extend %pagination-item;
+
+    &:hover:not(.disabled) {
+      background: rgba($primary, 0.08);
+      border-color: rgba($primary, 0.35);
+      transform: translateY(-1px);
+    }
+    
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $primary;
+      outline-offset: 2px;
+    }
+  }
+
+  // 3. Handle Active/Current State
+  // Kaminari uses .current, will_paginate uses .active
+  .current,
+  .active span,
+  .active a {
+    background: $primary !important;
+    border-color: $primary !important;
+    color: #fff !important;
+    cursor: default;
+    transform: none !important;
+  }
+
+  // 4. Handle Disabled State
+  .disabled,
+  .gap {
+    span, a {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+      background: #f8f9fa; // Optional: light gray for disabled
+      color: inherit;
+    }
+  }
+}
+
