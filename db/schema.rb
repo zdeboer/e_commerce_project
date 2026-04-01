@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_03_31_231256) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_01_161325) do
   create_table "addresses", force: :cascade do |t|
     t.integer "customer_id", null: false
     t.string "address_line1"
@@ -99,6 +99,15 @@ ActiveRecord::Schema[7.2].define(version: 2026_03_31_231256) do
     t.index ["address_id"], name: "index_orders_on_address_id"
     t.index ["customer_id"], name: "index_orders_on_customer_id"
     t.index ["stripe_payment_id"], name: "index_orders_on_stripe_payment_id", unique: true
+  end
+
+  create_table "pages", force: :cascade do |t|
+    t.string "title"
+    t.string "slug"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["slug"], name: "index_pages_on_slug", unique: true
   end
 
   create_table "product_variations", force: :cascade do |t|
