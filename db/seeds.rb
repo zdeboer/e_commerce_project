@@ -194,7 +194,7 @@ Province.upsert_all(
     { name: "Nunavut", code: "NU", gst: 0.05, pst: 0.0, hst: 0.0 },
     { name: "Ontario", code: "ON", gst: 0.0, pst: 0.0, hst: 0.13 },
     { name: "Prince Edward Island", code: "PE", gst: 0.0, pst: 0.0, hst: 0.15 },
-    { name: "Quebec", code: "QC", gst: 0.05, pst: 0.09975, hst: 0.0 },
+    { name: "Quebec", code: "QC", gst: 0.05, pst: 0.01, hst: 0.0 },
     { name: "Saskatchewan", code: "SK", gst: 0.05, pst: 0.06, hst: 0.0 },
     { name: "Yukon", code: "YT", gst: 0.05, pst: 0.0, hst: 0.0 }
   ],
@@ -219,7 +219,10 @@ Rails.logger.debug "Importing movies from TMDb..."
 movie_ids = [
   27_205, 155, 157_336, 11, 238, 240, 1891, 1892,
   680, 550, 603, 278, 120, 121, 122, 329, 105,
-  8587, 19_995, 597
+  8587, 19_995, 597, 13, 497, 424, 807, 98, 272,
+  49_026, 603_692, 245_891, 68_718, 16_869, 24_428,
+  299_534, 299_536, 1726, 284_054, 315_635, 634_649,
+  496_243, 539, 11_216, 274
 ]
 
 movie_ids.each do |id|

@@ -33,10 +33,8 @@ class CheckoutsController < ApplicationController
   helper_method :cart_hash
 
   def find_or_create_address
-    # If user selected an existing address, use it
     return current_customer.addresses.find(params[:address_id]) if params[:address_id].present?
 
-    # Normalize input
     attrs = {
       address_line1: params[:address_line1].to_s.strip.titleize,
       city:          params[:city].to_s.strip.titleize,
@@ -45,11 +43,9 @@ class CheckoutsController < ApplicationController
       country:       params[:country].to_s.strip.titleize
     }
 
-    # Reuse existing address if identical
     existing = current_customer.addresses.find_by(attrs)
     return existing if existing
 
-    # Otherwise create a new one
     current_customer.addresses.create!(attrs)
   end
 
