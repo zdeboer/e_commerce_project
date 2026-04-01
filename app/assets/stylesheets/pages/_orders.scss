@@ -1,3 +1,5 @@
 .order-summary {
-  margin-top: $space-4;
+  @extend .card;
+  padding: $space-4;
+  border-radius: $radius-md;
 }

@@ -1,14 +1,11 @@
 table {
-  width: 100%;
-  border-collapse: collapse;
+  @extend .table;
+  @extend .table-striped;
+  @extend .table-hover;
+  @extend .align-middle;
+}
 
-  th, td {
-    padding: $space-2;
-    border-bottom: 1px solid $color-border;
-  }
-
-  th {
-    font-weight: 600;
-    background: $color-light;
-  }
+.pagination {
+  @extend .pagination;
+  justify-content: center;
 }

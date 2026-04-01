@@ -1,3 +1,6 @@
 .checkout-summary {
-  margin-top: $space-4;
+  @extend .alert;
+  @extend .alert-success;
+  padding: $space-4;
+  border-radius: $radius-md;
 }

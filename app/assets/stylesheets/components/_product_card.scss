@@ -1,21 +1,31 @@
 .product-card {
-  border: 1px solid $color-border;
-  border-radius: $radius-md;
-  padding: $space-3;
-  background: white;
+  @extend .card;
+  padding: 0;
+
+  .product-image img {
+    @extend .card-img-top;
+  }
 
   .product-name {
-    font-weight: 600;
+    @extend .card-title;
+    font-size: 1.1rem;
     margin-bottom: $space-2;
   }
 
   .product-meta {
-    font-size: 14px;
+    @extend .card-text;
     opacity: 0.7;
     margin-bottom: $space-2;
   }
 
   .product-price {
+    @extend .card-text;
     font-weight: 600;
+  }
+
+  a {
+    @extend .btn;
+    @extend .btn-primary;
+    margin-top: $space-2;
   }
 }

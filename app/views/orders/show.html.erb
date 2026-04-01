@@ -7,7 +7,7 @@
 <h1>Order Placed</h1>
 
 <p><strong>Order:</strong> <%= @order.id %></p>
-<p><strong>Status:</strong> <%= @order.order_status %> / <%= @order.payment_status %></p>
+<p><strong>Status:</strong> <%= @order.order_status.capitalize %></p>
 <p><strong>Province:</strong> <%= @province_code.presence || (@order.address&.state || "—") %></p>
 
 <h2>Items</h2>

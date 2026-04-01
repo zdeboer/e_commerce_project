@@ -1,0 +1,6 @@
+button,
+input[type="submit"],
+.btn {
+  @extend .btn;
+  @extend .btn-primary;
+}

@@ -5,6 +5,13 @@
 
   input,
   select {
-    padding: $space-2;
+    @extend .form-control;
+  }
+
+  input[type="submit"],
+  a {
+    @extend .btn;
+    @extend .btn-secondary;
+    white-space: nowrap;
   }
 }
