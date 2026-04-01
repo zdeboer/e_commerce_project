@@ -132,8 +132,8 @@ Page.destroy_all
 # ============================================================
 Rails.logger.debug "Creating About + Contact pages..."
 
-Page.create!(slug: "about", title: "About Us", content: "Write your about page content here.")
-Page.create!(slug: "contact", title: "Contact Us", content: "Write your contact page content here.")
+Page.create!(slug: "about", title: "About Us", content: "We sell things")
+Page.create!(slug: "contact", title: "Contact Us", content: "Phone: (431) 887-7481")
 
 # ============================================================
 # Media Types
