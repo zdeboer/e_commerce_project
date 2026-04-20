@@ -17,6 +17,11 @@
   </head>
 
   <body>
+    <% if @maintenance_mode %>
+      <div style="background: #ffcc00; color: black; text-align: center; padding: 10px; font-weight: bold;">
+        SITE NOTICE: We are performing scheduled maintenance at 11:00 PM EST.
+      </div>
+    <% end %>
     <header>
       <%= render "shared/navbar" %>
     </header>

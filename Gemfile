@@ -64,3 +64,4 @@ gem "rubocop-rails"
 gem "sassc-rails"
 gem "bootstrap", "~> 5.3"
 gem "dotenv-rails", groups: [ :development, :test ]
+gem "erb_lint"

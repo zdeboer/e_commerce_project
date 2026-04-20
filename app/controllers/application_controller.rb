@@ -1,5 +1,11 @@
 class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
+  before_action :set_maintenance_status
+
+  def set_maintenance_status
+    # Change this to 'true' to show the banner
+    @maintenance_mode = true
+  end
   allow_browser versions: :modern
 
   helper_method :cart

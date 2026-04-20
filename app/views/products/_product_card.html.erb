@@ -5,9 +5,9 @@
   <% end %>
 
   <div class="product-body">
-    <h3 class="product-name">
+    <h2 class="product-name">
       <%= link_to product.name, product_path(product) %>
-    </h3>
+    </h2>
 
     <p class="product-meta">
       <%= product.genre&.name %> · <%= product.media_type&.name %>
