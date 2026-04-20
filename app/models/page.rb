@@ -1,5 +1,7 @@
 class Page < ApplicationRecord
   before_save :sanitize_content
+  validates :title, :slug, :content, presence: true
+  validates :slug, uniqueness: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[

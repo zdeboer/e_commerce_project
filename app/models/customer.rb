@@ -7,6 +7,7 @@ class Customer < ApplicationRecord
   has_many :addresses, dependent: :destroy
   has_many :orders, dependent: :destroy
   validates :first_name, :last_name, presence: true
+  validates :email, uniqueness: true
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[first_name last_name email phone created_at updated_at]

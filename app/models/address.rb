@@ -17,4 +17,5 @@ class Address < ApplicationRecord
   end
 
   validates :address_line1, :city, :state, :postal_code, :country, presence: true
+  validates :customer_id, numericality: { only_integer: true }
 end

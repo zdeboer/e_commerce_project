@@ -3,8 +3,7 @@ class ApplicationController < ActionController::Base
   before_action :set_maintenance_status
 
   def set_maintenance_status
-    # Change this to 'true' to show the banner
-    @maintenance_mode = true
+    @maintenance_mode = false
   end
   allow_browser versions: :modern
 

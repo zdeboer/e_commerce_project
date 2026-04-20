@@ -14,4 +14,5 @@ class Product < ApplicationRecord
   end
 
   validates :name, :description, :price, presence: true
+  validates :genre_id, :media_type_id, numericality: { only_integer: true }
 end

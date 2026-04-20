@@ -9,6 +9,7 @@ class Order < ApplicationRecord
 
   validates :order_date, :total_amount, presence: true
   validates :stripe_payment_id, uniqueness: true, allow_nil: true
+  validates :customer_id, :address_id, numericality: { only_integer: true }
 
   def self.ransackable_attributes(_auth_object = nil)
     %w[

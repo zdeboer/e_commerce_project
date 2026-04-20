@@ -1,6 +1,8 @@
 class Genre < ApplicationRecord
   has_many :products, dependent: :restrict_with_error
 
+  validates :name, presence: true
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[name created_at updated_at]
   end
